@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>IELTS Speaking Trainer</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      margin: 0;
+      padding: 30px;
+      color: #222;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 15px;
+      resize: vertical;
+    }
+
+    .modes {
+      display: flex;
+      gap: 15px;
+      margin: 15px 0 25px;
+    }
+
+    .mode {
+      flex: 1;
+      padding: 18px;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      cursor: pointer;
+      background: white;
+    }
+
+    .mode.active {
+      border-color: #4f46e5;
+      background: #eef2ff;
+    }
+
+    .mode-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .mode-description {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #startBtn {
+      background: #22c55e;
+      color: white;
+    }
+
+    #stopBtn {
+      background: #ef4444;
+      color: white;
+    }
+
+    #analyzeBtn {
+      background: #6366f1;
+      color: white;
+    }
+
+    .timer {
+      font-size: 20px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+
+    .status {
+      margin: 15px 0;
+      padding: 12px;
+      background: white;
+      border-radius: 8px;
+    }
+
+    .error {
+      display: none;
+      color: #b91c1c;
+      background: #fee2e2;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    #result {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .scores {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .score {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .score-name {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .score-value {
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .overall {
+      margin-top: 15px;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .overall-number {
+      font-size: 40px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .section {
+      background: white;
+      margin-top: 15px;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .transcript {
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 650px) {
+      .scores {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .modes {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>IELTS Speaking Trainer</h1>
+
+  <label>Question / topic</label>
+
+  <textarea
+    id="question"
+    placeholder="Paste the SpeechTopicGen question here..."></textarea>
+
+
+  <label style="margin-top:20px;">Speaking mode</label>
+
+  <div class="modes">
+
+    <div
+      id="vnMode"
+      class="mode active"
+      onclick="selectMode('Vietnamese')">
+
+      <div class="mode-title">🇻🇳 Vietnamese</div>
+
+      <div class="mode-description">
+        Idea-development practice
+      </div>
+
+    </div>
+
+
+    <div
+      id="enMode"
+      class="mode"
+      onclick="selectMode('English')">
+
+      <div class="mode-title">🇬🇧 English</div>
+
+      <div class="mode-description">
+        Full IELTS Speaking assessment
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <div class="controls">
+
+    <button id="startBtn" onclick="startRecording()">
+      🎙 Start recording
+    </button>
+
+    <button
+      id="stopBtn"
+      onclick="stopRecording()"
+      disabled>
+      ■ Stop
+    </button>
+
+    <button
+      id="analyzeBtn"
+      onclick="analyzeRecording()"
+      disabled>
+      ✨ Analyze
+    </button>
+
+    <div class="timer" id="timer">
+      00:00
+    </div>
+
+  </div>
+
+
+  <div class="status" id="status">
+    Ready.
+  </div>
+
+  <div class="error" id="error"></div>
+
+
+  <div id="result">
+
+    <h2>AI Evaluation</h2>
+
+    <div class="scores">
+
+      <div class="score">
+        <div class="score-name">
+          Fluency & Coherence
+        </div>
+
+        <div
+          class="score-value"
+          id="fluency">
+          -
+        </div>
+      </div>
+
+
+      <div class="score">
+        <div class="score-name">
+          Lexical Resource
+        </div>
+
+        <div
+          class="score-value"
+          id="lexical">
+          -
+        </div>
+      </div>
+
+
+      <div class="score">
+        <div class="score-name">
+          Grammar Range & Accuracy
+        </div>
+
+        <div
+          class="score-value"
+          id="grammar">
+          -
+        </div>
+      </div>
+
+
+      <div class="score">
+        <div class="score-name">
+          Pronunciation
+        </div>
+
+        <div
+          class="score-value"
+          id="pronunciation">
+          -
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="overall">
+
+      <div>Overall Band</div>
+
+      <div
+        class="overall-number"
+        id="overall">
+        -
+      </div>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>Transcript</h3>
+
+      <div
+        class="transcript"
+        id="transcript">
+      </div>
+
+    </div>
+
+
+    <div class="section">
+
+      <h3>Detailed Feedback</h3>
+
+      <div
+        class="transcript"
+        id="feedback">
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const APPS_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbxtuigVF6cUn0QOcd0Fx13-qS9yocT2y7PSOPcomZrmymk1JXuxvfd0ZvdCGHKhPCXP-g/exec";
+
+
+let selectedMode = "Vietnamese";
+
+let mediaRecorder = null;
+
+let audioChunks = [];
+
+let audioBlob = null;
+
+let seconds = 0;
+
+let timerInterval = null;
+
+
+function selectMode(mode) {
+
+  selectedMode = mode;
+
+  document
+    .getElementById("vnMode")
+    .classList.toggle(
+      "active",
+      mode === "Vietnamese"
+    );
+
+  document
+    .getElementById("enMode")
+    .classList.toggle(
+      "active",
+      mode === "English"
+    );
+
+}
+
+
+async function startRecording() {
+
+  try {
+
+    const stream =
+      await navigator.mediaDevices.getUserMedia({
+        audio: true
+      });
+
+
+    audioChunks = [];
+
+    audioBlob = null;
+
+
+    mediaRecorder =
+      new MediaRecorder(stream);
+
+
+    mediaRecorder.ondataavailable =
+      function(event) {
+
+        if (event.data.size > 0) {
+
+          audioChunks.push(event.data);
+
+        }
+
+      };
+
+
+    mediaRecorder.onstop =
+      function() {
+
+        audioBlob =
+          new Blob(
+            audioChunks,
+            {
+              type: mediaRecorder.mimeType
+            }
+          );
+
+
+        document
+          .getElementById("analyzeBtn")
+          .disabled = false;
+
+
+        document
+          .getElementById("status")
+          .textContent =
+          "Recording finished. Ready to analyze.";
+
+      };
+
+
+    mediaRecorder.start();
+
+
+    document
+      .getElementById("startBtn")
+      .disabled = true;
+
+
+    document
+      .getElementById("stopBtn")
+      .disabled = false;
+
+
+    seconds = 0;
+
+    updateTimer();
+
+    timerInterval =
+      setInterval(
+        updateTimer,
+        1000
+      );
+
+
+    document
+      .getElementById("status")
+      .textContent =
+      "Recording...";
+
+  }
+
+  catch (error) {
+
+    showError(
+      "Không thể truy cập microphone. Hãy cho phép trình duyệt sử dụng microphone."
+    );
+
+  }
+
+}
+
+
+function stopRecording() {
+
+  if (!mediaRecorder) return;
+
+
+  mediaRecorder.stop();
+
+
+  mediaRecorder.stream
+    .getTracks()
+    .forEach(
+      track => track.stop()
+    );
+
+
+  clearInterval(timerInterval);
+
+
+  document
+    .getElementById("startBtn")
+    .disabled = false;
+
+
+  document
+    .getElementById("stopBtn")
+    .disabled = true;
+
+}
+
+
+function updateTimer() {
+
+  seconds++;
+
+  const minutes =
+    Math.floor(seconds / 60);
+
+  const secs =
+    seconds % 60;
+
+
+  document
+    .getElementById("timer")
+    .textContent =
+    String(minutes).padStart(2, "0")
+    + ":"
+    + String(secs).padStart(2, "0");
+
+}
+
+
+function blobToBase64(blob) {
+
+  return new Promise(
+    (resolve, reject) => {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onloadend =
+        function() {
+
+          const result =
+            reader.result;
+
+
+          const base64 =
+            result.split(",")[1];
+
+
+          resolve(base64);
+
+        };
+
+
+      reader.onerror = reject;
+
+
+      reader.readAsDataURL(blob);
+
+    }
+  );
+
+}
+
+
+async function analyzeRecording() {
+
+  if (!audioBlob) {
+
+    showError(
+      "Chưa có bản ghi âm."
+    );
+
+    return;
+
+  }
+
+
+  const question =
+    document
+      .getElementById("question")
+      .value
+      .trim();
+
+
+  if (!question) {
+
+    showError(
+      "Nhập câu hỏi/topic trước nha."
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("analyzeBtn")
+    .disabled = true;
+
+
+  document
+    .getElementById("status")
+    .textContent =
+    "AI đang nghe và chấm bài...";
+
+
+  document
+    .getElementById("error")
+    .style.display =
+    "none";
+
+
+  try {
+
+    const audioBase64 =
+      await blobToBase64(audioBlob);
+
+
+    const payload = {
+
+      audioBase64:
+        audioBase64,
+
+      audioFormat:
+        "webm",
+
+      question:
+        question,
+
+      mode:
+        selectedMode,
+
+      part:
+        "",
+
+      topic:
+        ""
+
+    };
+
+
+    const response =
+      await fetch(
+        APPS_SCRIPT_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "text/plain;charset=utf-8"
+          },
+
+          body:
+            JSON.stringify(payload)
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.ok) {
+
+      throw new Error(
+        data.error ||
+        "Có lỗi khi phân tích bài nói."
+      );
+
+    }
+
+
+    displayResult(data.result);
+
+
+    document
+      .getElementById("status")
+      .textContent =
+      "Done! Kết quả đã được lưu vào Google Sheets.";
+
+  }
+
+  catch (error) {
+
+    showError(
+      error.message ||
+      String(error)
+    );
+
+  }
+
+  finally {
+
+    document
+      .getElementById("analyzeBtn")
+      .disabled = false;
+
+  }
+
+}
+
+
+function displayResult(result) {
+
+  document
+    .getElementById("result")
+    .style.display =
+    "block";
+
+
+  document
+    .getElementById("fluency")
+    .textContent =
+    result.fc ?? "-";
+
+
+  document
+    .getElementById("lexical")
+    .textContent =
+    result.lr ?? "-";
+
+
+  document
+    .getElementById("grammar")
+    .textContent =
+    result.gra ?? "-";
+
+
+  document
+    .getElementById("pronunciation")
+    .textContent =
+    result.pronunciation ?? "-";
+
+
+  document
+    .getElementById("overall")
+    .textContent =
+    result.overall ?? "-";
+
+
+  document
+    .getElementById("transcript")
+    .textContent =
+    result.transcript || "";
+
+
+  let feedback = "";
+
+
+  if (selectedMode === "English") {
+
+    feedback +=
+      "FLUENCY & COHERENCE\n\n" +
+      (result.fc_feedback || "") +
+      "\n\n";
+
+
+    feedback +=
+      "LEXICAL RESOURCE\n\n" +
+      (result.lr_feedback || "") +
+      "\n\n";
+
+
+    feedback +=
+      "GRAMMAR RANGE & ACCURACY\n\n" +
+      (result.gra_feedback || "") +
+      "\n\n";
+
+
+    feedback +=
+      "PRONUNCIATION\n\n" +
+      (result.pron_feedback || "") +
+      "\n\n";
+
+  }
+
+
+  feedback +=
+    "OVERALL\n\n" +
+    (result.overall_feedback || "") +
+    "\n\n";
+
+
+  feedback +=
+    "NEXT FOCUS\n\n" +
+    (result.next_focus || "");
+
+
+  document
+    .getElementById("feedback")
+    .textContent =
+    feedback;
+
+}
+
+
+function showError(message) {
+
+  const error =
+    document
+      .getElementById("error");
+
+
+  error.textContent =
+    message;
+
+
+  error.style.display =
+    "block";
+
+}
+
+</script>
+
+</body>
+</html>
