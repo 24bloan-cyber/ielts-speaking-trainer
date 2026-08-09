@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,82 +12,91 @@
     }
 
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #f5f7fb;
-      margin: 0;
-      padding: 30px;
       color: #222;
     }
 
     .container {
       max-width: 900px;
-      margin: auto;
+      margin: 40px auto;
+      padding: 24px;
     }
 
     h1 {
-      margin-bottom: 25px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
     }
 
     label {
       display: block;
-      font-weight: 600;
+      font-weight: bold;
       margin-bottom: 8px;
     }
 
     textarea {
       width: 100%;
-      min-height: 120px;
-      padding: 12px;
+      min-height: 100px;
+      padding: 14px;
       border: 1px solid #ccc;
       border-radius: 10px;
-      font-size: 15px;
+      font-size: 16px;
       resize: vertical;
     }
 
     .modes {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 15px;
-      margin: 15px 0 25px;
+      margin-top: 10px;
     }
 
     .mode {
-      flex: 1;
-      padding: 18px;
       border: 2px solid #ddd;
       border-radius: 12px;
+      padding: 18px;
       cursor: pointer;
-      background: white;
+      transition: 0.2s;
     }
 
     .mode.active {
       border-color: #4f46e5;
-      background: #eef2ff;
+      background: #f0efff;
     }
 
     .mode-title {
       font-weight: bold;
-      margin-bottom: 5px;
+      font-size: 18px;
+      margin-bottom: 6px;
     }
 
     .mode-description {
-      font-size: 14px;
       color: #666;
+      font-size: 14px;
     }
 
-    .controls {
+    .buttons {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 15px;
+      margin-top: 20px;
     }
 
     button {
-      padding: 12px 18px;
       border: none;
-      border-radius: 9px;
+      border-radius: 10px;
+      padding: 13px 20px;
+      font-size: 16px;
       cursor: pointer;
-      font-size: 15px;
     }
 
     button:disabled {
@@ -97,149 +105,181 @@
     }
 
     #startBtn {
-      background: #22c55e;
+      background: #16a34a;
       color: white;
     }
 
     #stopBtn {
-      background: #ef4444;
+      background: #dc2626;
       color: white;
     }
 
     #analyzeBtn {
-      background: #6366f1;
+      background: #4f46e5;
       color: white;
     }
 
     .timer {
-      font-size: 20px;
+      text-align: center;
+      font-size: 32px;
       font-weight: bold;
-      margin-left: 10px;
+      margin-top: 20px;
     }
 
-    .status {
-      margin: 15px 0;
-      padding: 12px;
-      background: white;
-      border-radius: 8px;
+    #status {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
     }
 
-    .error {
+    #error {
       display: none;
-      color: #b91c1c;
       background: #fee2e2;
+      color: #991b1b;
       padding: 12px;
-      border-radius: 8px;
-      margin: 10px 0;
+      border-radius: 10px;
+      margin-top: 15px;
+      white-space: pre-wrap;
     }
 
     #result {
       display: none;
-      margin-top: 30px;
     }
 
     .scores {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
+      margin-top: 20px;
     }
 
     .score {
-      background: white;
-      padding: 18px;
+      background: #f5f5f5;
       border-radius: 12px;
+      padding: 16px;
       text-align: center;
     }
 
     .score-name {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 10px;
+      font-size: 14px;
+      min-height: 40px;
     }
 
     .score-value {
       font-size: 28px;
       font-weight: bold;
+      margin-top: 8px;
     }
 
     .overall {
-      margin-top: 15px;
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
       text-align: center;
+      margin: 25px 0;
+      padding: 20px;
+      background: #f0efff;
+      border-radius: 12px;
     }
 
     .overall-number {
-      font-size: 40px;
+      font-size: 42px;
       font-weight: bold;
       margin-top: 8px;
     }
 
     .section {
-      background: white;
-      margin-top: 15px;
-      padding: 20px;
-      border-radius: 12px;
+      margin-top: 25px;
     }
 
-    .transcript {
+    .transcript,
+    .feedback {
+      background: #f8f8f8;
+      padding: 16px;
+      border-radius: 10px;
       white-space: pre-wrap;
       line-height: 1.6;
     }
 
-    @media (max-width: 650px) {
+    @media (max-width: 700px) {
+      .modes {
+        grid-template-columns: 1fr;
+      }
+
       .scores {
         grid-template-columns: 1fr 1fr;
       }
 
-      .modes {
-        flex-direction: column;
+      .container {
+        margin: 15px auto;
+        padding: 15px;
       }
     }
   </style>
 </head>
 
+
 <body>
 
 <div class="container">
 
-  <h1>IELTS Speaking Trainer</h1>
-
-  <label>Question / topic</label>
-
-  <textarea
-    id="question"
-    placeholder="Paste the SpeechTopicGen question here..."></textarea>
+  <h1>🎙 IELTS Speaking Trainer</h1>
 
 
-  <label style="margin-top:20px;">Speaking mode</label>
+  <!-- QUESTION -->
 
-  <div class="modes">
+  <div class="card">
 
-    <div
-      id="vnMode"
-      class="mode active"
-      onclick="selectMode('Vietnamese')">
+    <label for="question">
+      Question / Topic
+    </label>
 
-      <div class="mode-title">🇻🇳 Vietnamese</div>
+    <textarea
+      id="question"
+      placeholder="Enter your IELTS Speaking question or topic..."
+    ></textarea>
 
-      <div class="mode-description">
-        Idea-development practice
+  </div>
+
+
+  <!-- MODE -->
+
+  <div class="card">
+
+    <label>
+      Speaking mode
+    </label>
+
+    <div class="modes">
+
+      <div
+        id="vnMode"
+        class="mode active"
+        onclick="selectMode('Vietnamese')"
+      >
+
+        <div class="mode-title">
+          🇻🇳 Vietnamese
+        </div>
+
+        <div class="mode-description">
+          Idea-development practice
+        </div>
+
       </div>
 
-    </div>
 
+      <div
+        id="enMode"
+        class="mode"
+        onclick="selectMode('English')"
+      >
 
-    <div
-      id="enMode"
-      class="mode"
-      onclick="selectMode('English')">
+        <div class="mode-title">
+          🇬🇧 English
+        </div>
 
-      <div class="mode-title">🇬🇧 English</div>
+        <div class="mode-description">
+          Full IELTS Speaking assessment
+        </div>
 
-      <div class="mode-description">
-        Full IELTS Speaking assessment
       </div>
 
     </div>
@@ -247,95 +287,137 @@
   </div>
 
 
-  <div class="controls">
+  <!-- RECORDING -->
 
-    <button id="startBtn" onclick="startRecording()">
-      🎙 Start recording
-    </button>
+  <div class="card">
 
-    <button
-      id="stopBtn"
-      onclick="stopRecording()"
-      disabled>
-      ■ Stop
-    </button>
+    <div class="buttons">
 
-    <button
-      id="analyzeBtn"
-      onclick="analyzeRecording()"
-      disabled>
-      ✨ Analyze
-    </button>
+      <button
+        id="startBtn"
+        onclick="startRecording()"
+      >
+        🎙 Start recording
+      </button>
 
-    <div class="timer" id="timer">
+
+      <button
+        id="stopBtn"
+        onclick="stopRecording()"
+        disabled
+      >
+        ■ Stop
+      </button>
+
+
+      <button
+        id="analyzeBtn"
+        onclick="analyzeRecording()"
+        disabled
+      >
+        ✨ Analyze
+      </button>
+
+    </div>
+
+
+    <div
+      class="timer"
+      id="timer"
+    >
       00:00
     </div>
 
+
+    <div
+      id="status"
+    >
+      Ready to record.
+    </div>
+
+
+    <div
+      id="error"
+    ></div>
+
   </div>
 
 
-  <div class="status" id="status">
-    Ready.
-  </div>
+  <!-- RESULT -->
 
-  <div class="error" id="error"></div>
+  <div
+    class="card"
+    id="result"
+  >
 
+    <h2>
+      AI Evaluation
+    </h2>
 
-  <div id="result">
-
-    <h2>AI Evaluation</h2>
 
     <div class="scores">
 
       <div class="score">
+
         <div class="score-name">
           Fluency & Coherence
         </div>
 
         <div
           class="score-value"
-          id="fluency">
+          id="fluency"
+        >
           -
         </div>
+
       </div>
 
 
       <div class="score">
+
         <div class="score-name">
           Lexical Resource
         </div>
 
         <div
           class="score-value"
-          id="lexical">
+          id="lexical"
+        >
           -
         </div>
+
       </div>
 
 
       <div class="score">
+
         <div class="score-name">
           Grammar Range & Accuracy
         </div>
 
         <div
           class="score-value"
-          id="grammar">
+          id="grammar"
+        >
           -
         </div>
+
       </div>
 
 
       <div class="score">
+
         <div class="score-name">
           Pronunciation
         </div>
 
         <div
           class="score-value"
-          id="pronunciation">
+          id="pronunciation"
+        >
           -
         </div>
+
       </div>
 
     </div>
@@ -343,11 +425,14 @@
 
     <div class="overall">
 
-      <div>Overall Band</div>
+      <div>
+        Overall Band
+      </div>
 
       <div
         class="overall-number"
-        id="overall">
+        id="overall"
+      >
         -
       </div>
 
@@ -356,24 +441,28 @@
 
     <div class="section">
 
-      <h3>Transcript</h3>
+      <h3>
+        Transcript
+      </h3>
 
       <div
         class="transcript"
-        id="transcript">
-      </div>
+        id="transcript"
+      ></div>
 
     </div>
 
 
     <div class="section">
 
-      <h3>Detailed Feedback</h3>
+      <h3>
+        Detailed Feedback
+      </h3>
 
       <div
-        class="transcript"
-        id="feedback">
-      </div>
+        class="feedback"
+        id="feedback"
+      ></div>
 
     </div>
 
@@ -384,9 +473,18 @@
 
 <script>
 
-const APPS_SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbxtuigVF6cUn0QOcd0Fx13-qS9yocT2y7PSOPcomZrmymk1JXuxvfd0ZvdCGHKhPCXP-g/exec";
+/* =========================================================
+   IMPORTANT
+   DÁN WEB APP URL CỦA GOOGLE APPS SCRIPT VÀO ĐÂY
+   ========================================================= */
 
+const APPS_SCRIPT_URL =
+  "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+
+/* =========================================================
+   GLOBAL VARIABLES
+   ========================================================= */
 
 let selectedMode = "Vietnamese";
 
@@ -396,25 +494,33 @@ let audioChunks = [];
 
 let audioBlob = null;
 
-let seconds = 0;
-
 let timerInterval = null;
 
+let recordingSeconds = 0;
+
+
+/* =========================================================
+   MODE
+   ========================================================= */
 
 function selectMode(mode) {
 
   selectedMode = mode;
 
+
   document
     .getElementById("vnMode")
-    .classList.toggle(
+    .classList
+    .toggle(
       "active",
       mode === "Vietnamese"
     );
 
+
   document
     .getElementById("enMode")
-    .classList.toggle(
+    .classList
+    .toggle(
       "active",
       mode === "English"
     );
@@ -422,14 +528,39 @@ function selectMode(mode) {
 }
 
 
+/* =========================================================
+   START RECORDING
+   ========================================================= */
+
 async function startRecording() {
 
   try {
 
+    hideError();
+
+
+    const question =
+      document
+        .getElementById("question")
+        .value
+        .trim();
+
+
+    if (!question) {
+
+      showError(
+        "Nhập câu hỏi/topic trước nha."
+      );
+
+      return;
+    }
+
+
     const stream =
-      await navigator.mediaDevices.getUserMedia({
-        audio: true
-      });
+      await navigator.mediaDevices
+        .getUserMedia({
+          audio: true
+        });
 
 
     audioChunks = [];
@@ -446,7 +577,9 @@ async function startRecording() {
 
         if (event.data.size > 0) {
 
-          audioChunks.push(event.data);
+          audioChunks.push(
+            event.data
+          );
 
         }
 
@@ -460,7 +593,7 @@ async function startRecording() {
           new Blob(
             audioChunks,
             {
-              type: mediaRecorder.mimeType
+              type: "audio/webm"
             }
           );
 
@@ -475,10 +608,28 @@ async function startRecording() {
           .textContent =
           "Recording finished. Ready to analyze.";
 
+
+        stream
+          .getTracks()
+          .forEach(
+            track => track.stop()
+          );
+
       };
 
 
     mediaRecorder.start();
+
+
+    recordingSeconds = 0;
+
+    updateTimer();
+
+    timerInterval =
+      setInterval(
+        updateTimer,
+        1000
+      );
 
 
     document
@@ -491,15 +642,9 @@ async function startRecording() {
       .disabled = false;
 
 
-    seconds = 0;
-
-    updateTimer();
-
-    timerInterval =
-      setInterval(
-        updateTimer,
-        1000
-      );
+    document
+      .getElementById("analyzeBtn")
+      .disabled = true;
 
 
     document
@@ -509,10 +654,12 @@ async function startRecording() {
 
   }
 
+
   catch (error) {
 
     showError(
-      "Không thể truy cập microphone. Hãy cho phép trình duyệt sử dụng microphone."
+      error.message ||
+      String(error)
     );
 
   }
@@ -520,22 +667,25 @@ async function startRecording() {
 }
 
 
+/* =========================================================
+   STOP RECORDING
+   ========================================================= */
+
 function stopRecording() {
 
-  if (!mediaRecorder) return;
+  if (
+    mediaRecorder &&
+    mediaRecorder.state !== "inactive"
+  ) {
+
+    mediaRecorder.stop();
+
+  }
 
 
-  mediaRecorder.stop();
-
-
-  mediaRecorder.stream
-    .getTracks()
-    .forEach(
-      track => track.stop()
-    );
-
-
-  clearInterval(timerInterval);
+  clearInterval(
+    timerInterval
+  );
 
 
   document
@@ -550,62 +700,43 @@ function stopRecording() {
 }
 
 
+/* =========================================================
+   TIMER
+   ========================================================= */
+
 function updateTimer() {
 
-  seconds++;
-
   const minutes =
-    Math.floor(seconds / 60);
+    Math.floor(
+      recordingSeconds / 60
+    );
 
-  const secs =
-    seconds % 60;
+
+  const seconds =
+    recordingSeconds % 60;
 
 
   document
     .getElementById("timer")
     .textContent =
-    String(minutes).padStart(2, "0")
-    + ":"
-    + String(secs).padStart(2, "0");
+
+    String(minutes)
+      .padStart(2, "0")
+
+    + ":" +
+
+    String(seconds)
+      .padStart(2, "0");
+
+
+  recordingSeconds++;
 
 }
 
 
-function blobToBase64(blob) {
-
-  return new Promise(
-    (resolve, reject) => {
-
-      const reader =
-        new FileReader();
-
-
-      reader.onloadend =
-        function() {
-
-          const result =
-            reader.result;
-
-
-          const base64 =
-            result.split(",")[1];
-
-
-          resolve(base64);
-
-        };
-
-
-      reader.onerror = reject;
-
-
-      reader.readAsDataURL(blob);
-
-    }
-  );
-
-}
-
+/* =========================================================
+   ANALYZE
+   ========================================================= */
 
 async function analyzeRecording() {
 
@@ -638,9 +769,31 @@ async function analyzeRecording() {
   }
 
 
-  document
-    .getElementById("analyzeBtn")
-    .disabled = true;
+  if (
+    !APPS_SCRIPT_URL ||
+    APPS_SCRIPT_URL.includes(
+      "PASTE_YOUR"
+    )
+  ) {
+
+    showError(
+      "Chưa điền Google Apps Script Web App URL."
+    );
+
+    return;
+
+  }
+
+
+  const analyzeBtn =
+    document
+      .getElementById("analyzeBtn");
+
+
+  analyzeBtn.disabled = true;
+
+
+  hideError();
 
 
   document
@@ -649,16 +802,12 @@ async function analyzeRecording() {
     "AI đang nghe và chấm bài...";
 
 
-  document
-    .getElementById("error")
-    .style.display =
-    "none";
-
-
   try {
 
     const audioBase64 =
-      await blobToBase64(audioBlob);
+      await blobToBase64(
+        audioBlob
+      );
 
 
     const payload = {
@@ -667,7 +816,7 @@ async function analyzeRecording() {
         audioBase64,
 
       audioFormat:
-        "webm",
+        "audio/webm",
 
       question:
         question,
@@ -688,21 +837,47 @@ async function analyzeRecording() {
       await fetch(
         APPS_SCRIPT_URL,
         {
+
           method: "POST",
 
           headers: {
+
             "Content-Type":
               "text/plain;charset=utf-8"
+
           },
 
           body:
-            JSON.stringify(payload)
+            JSON.stringify(
+              payload
+            )
+
         }
       );
 
 
-    const data =
-      await response.json();
+    const text =
+      await response.text();
+
+
+    let data;
+
+
+    try {
+
+      data =
+        JSON.parse(text);
+
+    }
+
+    catch (error) {
+
+      throw new Error(
+        "Apps Script không trả về JSON:\n\n" +
+        text
+      );
+
+    }
 
 
     if (!data.ok) {
@@ -715,7 +890,9 @@ async function analyzeRecording() {
     }
 
 
-    displayResult(data.result);
+    displayResult(
+      data.result
+    );
 
 
     document
@@ -725,6 +902,7 @@ async function analyzeRecording() {
 
   }
 
+
   catch (error) {
 
     showError(
@@ -732,18 +910,72 @@ async function analyzeRecording() {
       String(error)
     );
 
+
+    document
+      .getElementById("status")
+      .textContent =
+      "Analysis failed.";
+
   }
+
 
   finally {
 
-    document
-      .getElementById("analyzeBtn")
-      .disabled = false;
+    analyzeBtn.disabled =
+      false;
 
   }
 
 }
 
+
+/* =========================================================
+   BLOB → BASE64
+   ========================================================= */
+
+function blobToBase64(blob) {
+
+  return new Promise(
+    function(resolve, reject) {
+
+      const reader =
+        new FileReader();
+
+
+      reader.onloadend =
+        function() {
+
+          const result =
+            reader.result;
+
+
+          const base64 =
+            result
+              .split(",")[1];
+
+
+          resolve(base64);
+
+        };
+
+
+      reader.onerror =
+        reject;
+
+
+      reader.readAsDataURL(
+        blob
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   DISPLAY RESULT
+   ========================================================= */
 
 function displayResult(result) {
 
@@ -756,31 +988,31 @@ function displayResult(result) {
   document
     .getElementById("fluency")
     .textContent =
-    result.fc ?? "-";
+    result.fluency || "-";
 
 
   document
     .getElementById("lexical")
     .textContent =
-    result.lr ?? "-";
+    result.lexical || "-";
 
 
   document
     .getElementById("grammar")
     .textContent =
-    result.gra ?? "-";
+    result.grammar || "-";
 
 
   document
     .getElementById("pronunciation")
     .textContent =
-    result.pronunciation ?? "-";
+    result.pronunciation || "-";
 
 
   document
     .getElementById("overall")
     .textContent =
-    result.overall ?? "-";
+    result.overall || "-";
 
 
   document
@@ -792,7 +1024,9 @@ function displayResult(result) {
   let feedback = "";
 
 
-  if (selectedMode === "English") {
+  if (
+    selectedMode === "English"
+  ) {
 
     feedback +=
       "FLUENCY & COHERENCE\n\n" +
@@ -839,6 +1073,10 @@ function displayResult(result) {
 }
 
 
+/* =========================================================
+   ERROR
+   ========================================================= */
+
 function showError(message) {
 
   const error =
@@ -852,6 +1090,21 @@ function showError(message) {
 
   error.style.display =
     "block";
+
+}
+
+
+function hideError() {
+
+  const error =
+    document
+      .getElementById("error");
+
+
+  error.textContent = "";
+
+  error.style.display =
+    "none";
 
 }
 
