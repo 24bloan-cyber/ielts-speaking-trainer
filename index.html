@@ -125,14 +125,22 @@ body:before{
 }
 
 .avatar{
-  width:44px;
-  height:44px;
+  width:52px;
+  height:52px;
   border-radius:50%;
   border:2px solid var(--paper);
   background:var(--butter);
   display:grid;
   place-items:center;
-  font-size:24px;
+  overflow:hidden;
+  box-shadow:0 3px 0 rgba(63,41,30,.15);
+}
+
+.avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
 
 /* APP SHELL */
@@ -198,16 +206,20 @@ body:before{
   border:3px solid var(--brown);
   border-radius:20px;
   min-height:230px;
+  height:260px;
   display:grid;
   place-items:center;
-  background:
-    linear-gradient(145deg,rgba(255,248,232,.45),rgba(158,175,112,.38)),
-    #c6a77c;
+  background:var(--paper);
   position:relative;
   overflow:hidden;
 }
 
-.sidebar-photo .bear{font-size:85px}
+.sidebar-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
 .sidebar-photo .caption{
   position:absolute;
   bottom:10px;
@@ -288,34 +300,18 @@ body:before{
 .hero-image{
   position:relative;
   min-height:250px;
-  background:
-    linear-gradient(145deg,rgba(90,57,39,.15),rgba(158,175,112,.3)),
-    #c9ad80;
-  display:grid;
-  place-items:center;
+  background:var(--paper);
   overflow:hidden;
 }
 
-.hero-image:before{
-  content:"☕";
-  font-size:110px;
-  filter:drop-shadow(4px 5px 0 rgba(63,41,30,.15));
-}
-
-.hero-image:after{
-  content:"🍰  🌿  🧸";
-  position:absolute;
-  bottom:18px;
-  font-size:27px;
-  letter-spacing:9px;
-}
-
-.hero-bear{
-  position:absolute;
-  right:20px;
-  bottom:15px;
-  font-size:78px;
-  z-index:2;
+.hero-image img{
+  width:100%;
+  height:100%;
+  min-height:250px;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  filter:saturate(.92) sepia(.04);
 }
 
 .question{
@@ -810,7 +806,7 @@ body:before{
 
     <div class="greeting">
       good morning, friend! ♡
-      <div class="avatar">🧸</div>
+      <div class="avatar"><img src="avatar.png" alt="mint avatar"></div>
     </div>
   </header>
 
@@ -834,7 +830,7 @@ body:before{
       </nav>
 
       <div class="sidebar-photo">
-        <div class="bear">🧸</div>
+        <img src="bookmark.png" alt="cozy bakery bookmark illustration">
         <div class="caption">take your time ♪</div>
       </div>
 
@@ -858,7 +854,7 @@ body:before{
         </div>
 
         <div class="hero-image">
-          <div class="hero-bear">🧸</div>
+          <img src="cafe.png" alt="aesthetic pink café illustration">
         </div>
       </section>
 
@@ -1074,7 +1070,7 @@ const APPS_SCRIPT_URL =
 ========================================================
 */
 
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBqpDUf_OMPSnDLwcwYoETNRyvwe6tA4ig3eYZOU3DqGCO6dZ_XUPnCr1DxOKDxUMWnA/exec";
+const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 let selectedMode = "Vietnamese";
 let mediaRecorder = null;
